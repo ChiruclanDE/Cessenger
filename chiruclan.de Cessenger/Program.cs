@@ -88,6 +88,12 @@ namespace Server_chiruclande_Cessenger
                 cfg.inet.address = config.GetKey("inet.address");
                 ushort.TryParse(config.GetKey("inet.port"), out cfg.inet.port);
 
+                cfg.mysql.username = config.GetKey("mysql.username");
+                cfg.mysql.password = config.GetKey("mysql.password");
+                cfg.mysql.hostname = config.GetKey("mysql.hostname");
+                cfg.mysql.database = config.GetKey("mysql.database");
+                ushort.TryParse(config.GetKey("mysql.port"), out cfg.mysql.port);
+
                 sock.address = cfg.inet.address;
                 sock.port = cfg.inet.port;
                 sock.server = new TcpListener(sock.endpoint);

@@ -39,6 +39,16 @@ namespace Server_chiruclande_Cessenger
                 public string suffix;
             }
         }
+
+        public _mysql mysql;
+        public struct _mysql
+        {
+            public string username;
+            public string password;
+            public string hostname;
+            public ushort port;
+            public string database;
+        }
     }
 
     public struct struct_socket
