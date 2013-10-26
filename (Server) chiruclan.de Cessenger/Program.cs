@@ -29,7 +29,7 @@ namespace Server_chiruclande_Cessenger
 
         #region config_vars
         private static struct_config cfg;
-        private static _prepared prep;
+        private static _prepared prep = new _prepared();
         #endregion
 
         static void Main(string[] args)
@@ -47,7 +47,8 @@ namespace Server_chiruclande_Cessenger
                         + "\n:: Software powered by chiruclan.de"
                         + "\n::");
 
-                //sock.server.Start();
+                sock.server.Start();
+                logger.cout(":: {0}\n:: {1}", prep.get_account_id, prep.check_login_id);
                 logger.cout(":: Listening at {0}:{1}", sock.address, sock.port);
 
                 while (true)
@@ -57,9 +58,9 @@ namespace Server_chiruclande_Cessenger
                     connection.stream = sock.client.GetStream();
                     connection.streamw = new StreamWriter(connection.stream);
                     connection.streamr = new StreamReader(connection.stream);
-
-
                 }
+
+                sock.server.Stop();
             }
             catch (Exception ex)
             {
