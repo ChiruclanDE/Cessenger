@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
-using DotNetLibrary;
 
 namespace Server_chiruclande_Cessenger
 {
@@ -14,6 +13,7 @@ namespace Server_chiruclande_Cessenger
         private string _username;
         private string _password;
         private string _database;
+        private Logging logger;
 
         public string DatabaseName
         {
@@ -22,13 +22,14 @@ namespace Server_chiruclande_Cessenger
 
         private MySqlConnection Connection;
 
-        public Database(string hostname, ushort port, string username, string password, string database)
+        public Database(string hostname, ushort port, string username, string password, string database, Logging _logger)
         {
             _hostname = hostname;
             _port = port;
             _username = username;
             _password = password;
             _database = database;
+            logger = _logger;
 
             Connection = new MySqlConnection(CreateConnectionString());
         }
@@ -46,26 +47,18 @@ namespace Server_chiruclande_Cessenger
             return mCSB.ToString();
         }
 
-        public List<Dictionary<Object, Object>> execute_query(string Query, List<Object> Params = null)
+        public List<Dictionary<object, object>> execute_query(string Query, params object[] Params)
         {
             try
             {
-                List<Dictionary<Object, Object>> Result = new List<Dictionary<Object, Object>>();
+                List<Dictionary<object, object>> Result = new List<Dictionary<object, object>>();
 
                 MySqlCommand Command = new MySqlCommand(Query, Connection);
 
                 Connection.Open();
 
-                if (Params != null)
-                {
-                    int i = 0;
-
-                    foreach (Object Param in Params)
-                    {
-                        i++;
-                        Command.Parameters.Add(new MySqlParameter("@" + i.ToString(), value: Param));
-                    }
-                }
+                for (int i = 0; i < Params.Length; i++)
+                    Command.Parameters.Add(new MySqlParameter("@" + i.ToString(), value: Params[i]));
 
                 Command.Prepare();
 
@@ -74,7 +67,7 @@ namespace Server_chiruclande_Cessenger
 
                 while (Reader.Read())
                 {
-                    Dictionary<Object, Object> Row = new Dictionary<Object, Object>();
+                    Dictionary<object, object> Row = new Dictionary<object, object>();
 
                     for (int i = 0; i < Reader.FieldCount; i++)
                         Row.Add(Reader.GetName(i), Reader.GetValue(i));
@@ -92,6 +85,7 @@ namespace Server_chiruclande_Cessenger
                 if (Connection.State != System.Data.ConnectionState.Closed)
                     Connection.Close();
 
+                logger.cerr(ex.Message);
                 return null;
             }
         }

@@ -20,6 +20,7 @@ namespace Server_chiruclande_Cessenger
 
         #region configuration_io_system
         private static Logging logger;
+        private static Database db;
         #endregion
 
         #region config_sockets
@@ -28,6 +29,7 @@ namespace Server_chiruclande_Cessenger
 
         #region config_vars
         private static struct_config cfg;
+        private static _prepared prep;
         #endregion
 
         static void Main(string[] args)
@@ -93,6 +95,9 @@ namespace Server_chiruclande_Cessenger
                 cfg.mysql.hostname = config.GetKey("mysql.hostname");
                 cfg.mysql.database = config.GetKey("mysql.database");
                 ushort.TryParse(config.GetKey("mysql.port"), out cfg.mysql.port);
+
+                db = new Database(cfg.mysql.hostname, cfg.mysql.port, cfg.mysql.username, cfg.mysql.password, cfg.mysql.database, logger);
+                //db.execute_query(prep.get_account_id, "test");
 
                 sock.address = cfg.inet.address;
                 sock.port = cfg.inet.port;
