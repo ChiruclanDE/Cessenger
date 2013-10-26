@@ -48,7 +48,6 @@ namespace Server_chiruclande_Cessenger
                         + "\n::");
 
                 sock.server.Start();
-                logger.cout(":: {0}\n:: {1}", prep.get_account_id, prep.check_login_id);
                 logger.cout(":: Listening at {0}:{1}", sock.address, sock.port);
 
                 while (true)
