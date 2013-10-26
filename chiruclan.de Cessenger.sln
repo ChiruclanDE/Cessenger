@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(Server) chiruclan.de Cessenger", "chiruclan.de Cessenger\(Server) chiruclan.de Cessenger.csproj", "{BF25F384-EB26-4BAA-B902-47E5F189C865}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(Server) chiruclan.de Cessenger", "(Server) chiruclan.de Cessenger\(Server) chiruclan.de Cessenger.csproj", "{BF25F384-EB26-4BAA-B902-47E5F189C865}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,7 +20,7 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		BuildVersion_UseUniversalClock = True
 		BuildVersion_ConfigurationName = Release
-		BuildVersion_AssemblyInfoFilename = chiruclan.de Cessenger\Properties\AssemblyInfo.cs
+		BuildVersion_AssemblyInfoFilename = (Server) chiruclan.de Cessenger\Properties\AssemblyInfo.cs
 		BuildVersion_StartDate = 2013/10/25
 		BuildVersion_BuildAction = ReBuild
 		BuildVersion_UpdateFileVersion = True
