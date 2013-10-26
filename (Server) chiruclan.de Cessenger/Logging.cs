@@ -13,6 +13,8 @@ namespace Server_chiruclande_Cessenger
 
         private string _basename, _prefix, _suffix;
         private bool _with_date;
+        private TextWriter _disable_console_output = TextWriter.Null;
+        private TextWriter _enable_console_output = Console.Out;
 
         public string basename
         {
@@ -124,6 +126,16 @@ namespace Server_chiruclande_Cessenger
                 Console.WriteLine("\nError:\n{0}", ex.Message);
                 Console.ResetColor();
             }
+        }
+
+        public void disable_console()
+        {
+            Console.SetOut(_disable_console_output);
+        }
+
+        public void enable_console()
+        {
+            Console.SetOut(_enable_console_output);
         }
     }
 }

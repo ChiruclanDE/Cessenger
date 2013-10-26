@@ -19,17 +19,17 @@ namespace Server_chiruclande_Cessenger
         #endregion
 
         #region configuration_io_system
-        private static Logging logger;
-        private static Database db;
+        private static Logging logger; // console output class for logging to file and console activated by init_server()
+        private static Database db; // mysql database connection activated by init_server()
         #endregion
 
         #region config_sockets
-        private static struct_socket sock;
+        private static struct_socket sock; // socket structure with client and server socket
         #endregion
 
         #region config_vars
-        private static struct_config cfg;
-        private static _prepared prep = new _prepared();
+        private static struct_config cfg; // config structure filled by init_server()
+        private static _prepared prep; // prepared statements for mysql, look at PreparedStatements.cs for more information
         #endregion
 
         static void Main(string[] args)
@@ -38,6 +38,7 @@ namespace Server_chiruclande_Cessenger
             {
                 if (!init_server())
                     return;
+                Console.SetOut(Console.Out);
 
                 Console.Title = "(Server) chiruclan.de Cessenger";
 
@@ -58,8 +59,6 @@ namespace Server_chiruclande_Cessenger
                     connection.streamw = new StreamWriter(connection.stream);
                     connection.streamr = new StreamReader(connection.stream);
                 }
-
-                sock.server.Stop();
             }
             catch (Exception ex)
             {
@@ -74,9 +73,14 @@ namespace Server_chiruclande_Cessenger
         {
             try
             {
+                TextWriter tmp = Console.Out; // save old output
+                Console.SetOut(TextWriter.Null); // suppress output
+
                 config = new SimpleConfiguration("cc_server.conf");
                 crypt = new SimpleCryptography();
                 cache = new SimpleCaching();
+
+                Console.SetOut(tmp); // reenable console output
 
                 cfg.logging.file.basename = config.GetKey("logging.file.basename");
                 cfg.logging.file.prefix = config.GetKey("logging.file.prefix");
@@ -97,7 +101,6 @@ namespace Server_chiruclande_Cessenger
                 ushort.TryParse(config.GetKey("mysql.port"), out cfg.mysql.port);
 
                 db = new Database(cfg.mysql.hostname, cfg.mysql.port, cfg.mysql.username, cfg.mysql.password, cfg.mysql.database, logger);
-                //db.execute_query(prep.get_account_id, "test");
 
                 sock.address = cfg.inet.address;
                 sock.port = cfg.inet.port;
